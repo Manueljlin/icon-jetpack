@@ -1,0 +1,36 @@
+{
+  "name": "icon-jetpack",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/code.js",
+  "scripts": {
+    "dev": "nodemon --watch src -e ts,js,d.ts,html,svelte --exec npm run build",
+    "build": "tailwindcss -i ./src/app.css -o ./dist/output.css && vite build && tsc -p tsconfig.json",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.82.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@tsconfig/svelte": "^5.0.2",
+    "@types/node": "^20.10.5",
+    "@types/uuid4": "^2.0.3",
+    "nodemon": "^3.0.2",
+    "svelte": "^4.2.8",
+    "svelte-check": "^3.6.2",
+    "tailwindcss": "^3.4.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "vite-plugin-singlefile": "^0.13.5"
+  },
+  "dependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@types/lodash-es": "^4.17.12",
+    "jszip": "^3.10.1",
+    "lodash-es": "^4.17.21",
+    "svgo": "^3.1.0",
+    "uuid4": "^2.0.3"
+  }
+}

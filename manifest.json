@@ -1,0 +1,21 @@
+{
+  "name": "Icon Jetpack",
+  "id": "1319957450603626502",
+  "api": "1.0.0",
+
+  "ui": "dist/index.html",
+  "main": "dist/code.js",
+
+  "capabilities": [],
+  "enableProposedApi": false,
+
+  "editorType": [
+    "figma"
+  ],
+
+  "networkAccess": {
+    "allowedDomains": [
+      "none"
+    ]
+  }
+}

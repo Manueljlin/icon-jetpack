@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ES6",
+    "moduleResolution": "bundler"
+  },
+
+  "include": ["vite.config.ts"]
+}
