@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { sizeOnlyInViewbox } from "../util/svgOptUtils"
   import uuid4 from "uuid4"
 
   export let renders: string|undefined
@@ -29,29 +30,21 @@
 
     const _uuid = uuid4()
 
-    const _parsedSvg: HTMLElement = new DOMParser()
+    const _parsedSvg: SVGElement = new DOMParser()
       .parseFromString(renders, 'image/svg+xml')
-      .documentElement
+      .documentElement as unknown as SVGElement
 
-
-    //-------------------------------------------------------------------------
-    // change from width, height to viewBox
-
-    const _width  = _parsedSvg.getAttribute('width')
-    const _height = _parsedSvg.getAttribute('height')
-
-    _parsedSvg.removeAttribute('width')
-    _parsedSvg.removeAttribute('height')
-
-    if (_parsedSvg.getAttribute('viewBox') == null) {
-      _parsedSvg.setAttribute('viewBox', `0 0 ${_width} ${_height}`)
-    }
-
-
-    //-------------------------------------------------------------------------
-    // concat uuid to all ids
 
     //
+    // Ensure SVG size is only set with viewBox
+    sizeOnlyInViewbox({
+      svg: _parsedSvg
+    })
+
+
+    //
+    // concat uuid to all ids
+
     // ids defs from non style tag (linearGradient etc)
     const _defs: SVGDefsElement|null = _parsedSvg.querySelector('defs')
     if (_defs != null) {
@@ -65,21 +58,27 @@
       })
     }
 
-
-    const _urlRgx = /url\(#([^)]+)\)/
     // ids from each child
-    Array.from(_parsedSvg.children).forEach(_child => {
-      if (_child.tagName == 'DEFS') return
+    const _urlRgx = /url\(#([^)]+)\)/
+    const recursiveUrlAdapter = (_node: SVGElement) => {
+      if (_node.tagName == 'DEFS') return
+      if (_node.children.length > 0) {
+        Array.from(_node.children)
+          .forEach(_child => recursiveUrlAdapter(_child as SVGElement))
+        return
+      }
 
-      _child.getAttributeNames().forEach(_attr => {
-        const _attrVal     = _child.getAttribute(_attr)
+      _node.getAttributeNames().forEach(_attr => {
+        const _attrVal     = _node.getAttribute(_attr)
         const _attrMatches = _attrVal?.match(_urlRgx)
         const _attrUrl     = _attrMatches?.[1]
 
         if (_attrMatches != null)
-          _child.setAttribute(_attr,  `url(#${_uuid}${_attrUrl})`)
+          _node.setAttribute(_attr,  `url(#${_uuid}${_attrUrl})`)
       })
-    })
+
+    }
+    recursiveUrlAdapter(_parsedSvg)
 
     svg = new XMLSerializer().serializeToString(_parsedSvg)
   }

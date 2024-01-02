@@ -96,6 +96,102 @@ const sendSelectedFrames = () => {
     })
 }
 
+
+// const processNode = (_mainNode: SceneNode): SceneNode => {
+//   let _nodeCopy: SceneNode = _mainNode.clone()
+
+//   const processNodeChild = (_node: SceneNode): SceneNode|undefined => {
+//     if ('children' in _node) {
+//       // TODO: handle component instances
+//       let _nodeToProcess = _node.clone() as GroupNode|FrameNode
+
+//       _nodeToProcess.children.forEach(_child => {
+//         const _index = (_nodeToProcess as GroupNode).children.indexOf(_child)
+//         const _res = processNodeChild(_child);
+
+//         if (_res) {
+//           if (
+//             _res.parent
+//             && _res.parent.type == 'GROUP'
+//             || _res.parent?.type == 'FRAME'
+//           ) {
+//             const _detached = _res.parent.detachInstance();
+//             (_nodeCopy as GroupNode).insertChild(_index, _detached)
+//           }
+
+//         } else {
+
+//         }
+
+//         _child.remove()
+//       })
+
+//     } else {
+//       switch (_node.type) {
+//       case "MEDIA":
+//         // _node.remove()
+//         break
+//       case "VECTOR":
+//       case "RECTANGLE":
+//       case "LINE":
+//         return _node.outlineStroke() ?? _node
+//       default:
+//         break
+//       }
+//     }
+//   }
+
+//   processNodeChild(_nodeCopy)
+
+
+//   return _nodeCopy
+// }
+
+// const outlineMaybeAndExport = async (_mainNode: SceneNode) => {
+
+//   const _tmpPage = figma.createPage()
+//   figma.currentPage = _tmpPage
+
+//   const _clone = _mainNode.clone()
+//   _tmpPage.appendChild(_clone)
+
+//   recursiveOutline(_clone)
+//   const _svg = await _clone.exportAsync({ format: 'SVG_STRING'})
+//   _tmpPage.remove()
+
+//   return _svg
+// }
+
+
+// const recursiveOutline = (_mainNode: SceneNode) => {
+//   if (
+//     _mainNode.type != 'GROUP'
+//     && _mainNode.type != 'FRAME'
+//   ) return
+
+//   _mainNode.children.forEach(_child => {
+//       switch (_child.type) {
+//       case 'GROUP':
+//       case 'FRAME':
+//         recursiveOutline(_child)
+//         break
+//       case "VECTOR":
+//       case "RECTANGLE":
+//       case "LINE":
+//         const _outlined = _child.outlineStroke()
+
+//         if (_outlined) {
+//           _child.remove()
+//           _mainNode.appendChild(_outlined)
+//         }
+//       default:
+//         break
+//       }
+//   })
+// }
+
+
+
 figma.on('selectionchange', sendSelectedFrames)
 figma.showUI(
   __html__,
