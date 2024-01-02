@@ -9,9 +9,15 @@
 
   const toggle = () => toggles = !toggles
   const dispatch = createEventDispatcher()
+
   const clickEvent = (e: MouseEvent) => {
     toggle()
     dispatch('click', e) // emit click event to parent as hook to update stuff
+  }
+
+  const keyEvent = (e: KeyboardEvent) => {
+    if (e.key == 'Enter')
+      toggle()
   }
 
   const statesBody = {
@@ -32,7 +38,7 @@
   aria-checked="{toggles}"
   tabindex="0"
   on:click={clickEvent}
-  on:keydown={toggle}
+  on:keydown={keyEvent}
   class="flex flex-1 w-full gap-3 cursor-pointer group">
 
   <div

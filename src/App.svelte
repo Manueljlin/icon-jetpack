@@ -168,7 +168,9 @@
       gap-y-7 gap-x-8
     ">
       {#if svgtb.svgs.length == 0}
-        select icons and click optimize.
+        <p class="text-slate-500">
+          No icons selected
+        </p>
       {:else}
         {#each svgtb.svgs as _svg}
           <div class="flex flex-col gap-1">
